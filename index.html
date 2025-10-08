@@ -8,10 +8,16 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
-      background: #111;
+      background: linear-gradient(-45deg, #111, #222, #111, #1a1a1a);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
       color: #fff;
     }
-    h1, h2 { text-align: center; color: #ff0000; }
+    h1, h2 { 
+      text-align: center; 
+      color: #ff0000;
+      animation: fadeInDown 1s ease-in-out;
+    }
     form {
       background: #222;
       padding: 15px;
@@ -20,6 +26,7 @@
       max-width: 500px;
       margin: auto;
       color: #fff;
+      animation: fadeIn 1s ease-in-out;
     }
     label { display: block; margin-top: 10px; font-weight: bold; }
     input, select, textarea {
@@ -31,25 +38,61 @@
       margin-top: 15px; padding: 10px; width: 100%;
       background: #ff0000; color: white; border: none; border-radius: 5px;
       cursor: pointer; font-size: 16px; font-weight: bold;
+      transition: all 0.3s ease-in-out;
     }
-    button:hover { background: #cc0000; }
+    button:hover { background: #cc0000; transform: scale(1.05) rotate(-1deg); }
     table {
       margin-top: 20px; width: 100%; border-collapse: collapse; background: #222;
+      animation: fadeInUp 1s ease-in-out;
     }
     th, td { padding: 10px; border: 1px solid #444; text-align: center; }
     th { background: #ff0000; color: white; }
     td { color: #fff; }
+    tr { animation: fadeIn 0.8s ease-in-out; }
     .container { max-width: 1100px; margin: auto; }
-    .acciones button { margin: 2px; padding: 5px 10px; font-size: 14px; border-radius: 5px; border: none; cursor: pointer; }
+    .acciones button { margin: 2px; padding: 5px 10px; font-size: 14px; border-radius: 5px; border: none; cursor: pointer; transition: all 0.3s ease-in-out; }
     .acciones button:first-child { background: #ffaa00; color: #000; }
     .acciones button:last-child { background: #ff0000; color: #fff; }
+    .acciones button:hover { transform: scale(1.1) rotate(2deg); }
     #totalVentas { margin-top: 15px; font-weight: bold; font-size: 18px; text-align: right; color: #ff0000; }
     .logo { display:flex; justify-content:center; margin-bottom:20px; }
-    .logo img { max-width:150px; }
+    .logo img { max-width:150px; animation: zoomIn 1s ease-in-out; }
     #otroDesc, #otroDescPend { display: none; }
     .extra-buttons { display:flex; justify-content:center; gap:10px; margin-top:10px; }
-    .extra-buttons button { background:#444; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer; font-size:14px; }
-    .extra-buttons button:hover { background:#666; }
+    .extra-buttons button { background:#444; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer; font-size:14px; transition: all 0.3s ease-in-out; }
+    .extra-buttons button:hover { background:#666; transform: scale(1.05); }
+
+    /* Animaciones */
+    @keyframes zoomIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1:hover, h2:hover {
+      animation: pulse 0.6s ease-in-out;
+    }
   </style>
 </head>
 <body>
@@ -59,6 +102,10 @@
 
   <h1>Registro de Ventas - SERVITEC</h1>
   <div class="container">
+    <!-- el resto del código queda igual (formularios, tablas, scripts, etc.) -->
+  </div>
+</body>
+</html>
 
     <!-- FORMULARIO VENTAS -->
     <form id="ventaForm">
@@ -200,7 +247,7 @@
           <option value="Efectivo">Efectivo</option>
           <option value="Tarjeta">Tarjeta</option>
           <option value="Transferencia">Transferencia</option>
-value="NO PAGADO">NO PAGADO</opcion>
+          <option value="NO PAGADO">NO PAGADO</option>
         </select>
 
         <button type="submit">Agregar Pendiente</button>
@@ -448,28 +495,33 @@ value="NO PAGADO">NO PAGADO</opcion>
 function imprimirTicket(index) {
   let ventas = JSON.parse(localStorage.getItem("ventas")) || [];
   let venta = ventas[index];
-
   if (!venta) return alert("Venta no encontrada.");
 
-  let ticket = window.open("", "Ticket", "width=300,height=650");
+  // recuperar o inicializar contador de tickets
+  let ticketCounter = parseInt(localStorage.getItem("ticketCounter")) || 1;
+  let ticketNo = ("00000000" + ticketCounter).slice(-8); // 8 dígitos
+
+  // aumentar contador y guardar
+  localStorage.setItem("ticketCounter", ticketCounter + 1);
+
+  let ticket = window.open("", "Ticket", "width=300,height=500");
   ticket.document.write(`
     <html>
     <head>
       <title>Ticket</title>
       <style>
-        body { font-family: monospace, Arial, sans-serif; font-size: 12px; text-align: center; margin: 5px; }
-        .linea { border-top: 1px solid #000; margin: 4px 0; }
-        .titulo { font-weight: bold; font-size: 14px; margin: 5px 0; }
-        .detalle { text-align: left; margin: 5px; font-size: 12px; }
-        .totales { text-align: right; font-weight: bold; }
-        .qr { margin-top: 10px; }
-        .qr img { max-width: 120px; }
-        .politicas { font-size: 9px; text-align: left; margin-top: 10px; }
+        body { font-family: monospace, Arial, sans-serif; font-size: 11px; text-align: center; margin: 2px; }
+        .linea { border-top: 1px solid #000; margin: 2px 0; }
+        .titulo { font-weight: bold; font-size: 12px; margin: 3px 0; }
+        .detalle { text-align: left; margin: 2px; font-size: 11px; }
+        .totales { text-align: right; font-weight: bold; margin-top: 2px; }
+        .qr img { max-width: 100px; }
+        .politicas { font-size: 9px; text-align: left; margin-top: 5px; }
       </style>
     </head>
     <body>
-      <div><img src="logo.png" alt="Logo" style="max-width:100px;"></div>
-      <p><strong>SERVITEC</strong></p>
+      <div><img src="logo.png" alt="Logo" style="max-width:90px;"></div>
+      <!-- Eliminado SERVITEC debajo del logo -->
       <p>Calle Emilio Carranza #28 Col. Fresno del Norte</p>
       <p>Fco. I. Madero, Coah</p>
       <p>Tel: 8718968112</p>
@@ -478,7 +530,7 @@ function imprimirTicket(index) {
       <div class="linea"></div>
       <div class="detalle">
         <p>Fecha: ${venta.fecha} &nbsp;&nbsp; Hora: ${new Date().toLocaleTimeString()}</p>
-        <p>Ticket No: ${("00000000" + (index+1)).slice(-8)}</p>
+        <p>Ticket No: ${ticketNo}</p>
         <p>Cliente: ${venta.nombreCliente}</p>
         <p>Teléfono: ${venta.telefonoCliente}</p>
         <p>Equipo: ${venta.tipoTelefono}</p>
@@ -499,16 +551,14 @@ function imprimirTicket(index) {
       <div class="linea"></div>
       <div class="politicas">
         <strong>POLÍTICAS DE GARANTÍA</strong><br>
-        El servicio técnico cuenta con 
-        30 días de garantía en refacciones.<br>
+        El servicio técnico cuenta con 30 días de garantía en refacciones.<br>
         1. Solo cubre el arreglo realizado.<br>
         2. Revisiones sin costo.<br>
         3. No aplica en equipos mojados, golpeados o con sellos rotos.<br>
         4. No aplica en software con virus o bloqueos.<br>
         5. El cliente debe revisar al recibirlo.<br>
         6. No hay reclamos después de 24 hrs.<br>
-        7. no nos hacemos responsables por teléfonos olvidados que superen los 30 días de haber sido dejados en reparación.<br>
-        Consulte reglamento completo en el local.
+        7. No responsables por teléfonos olvidados que superen 30 días.<br>
       </div>
       <script>window.print();<\/script>
     </body>
@@ -516,7 +566,6 @@ function imprimirTicket(index) {
   `);
   ticket.document.close();
 }
-
     // === HISTORIAL ===
     function toggleHistorial() {
       const cont = document.getElementById("historialContainer");
@@ -702,6 +751,9 @@ function imprimirTicket(index) {
       ticket.document.close();
     }
 
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
