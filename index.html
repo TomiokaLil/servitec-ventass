@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Ventas - SERVITEC</title>
+  <style>
+    :root {
+      --primary: #e53935;
+      --primary-dark: #c62828;
+      --dark: #121212;
+      --dark-light: #1e1e1e;
+      --dark-lighter: #2a2a2a;
+      --text: #ffffff;
+      --text-secondary: #b0b0b0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--dark), var(--dark-light));
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    
+    .logo img {
+      max-width: 180px;
+      filter: drop-shadow(0 0 10px rgba(229, 57, 53, 0.3));
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      animation: fadeInDown 0.8s ease-in-out;
+    }
+    
+    .header h1 {
+      color: var(--primary);
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+    
+    .tabs {
+      display: flex;
+      background-color: var(--dark-light);
+      border-radius: 10px 10px 0 0;
+      overflow: hidden;
+      margin-bottom: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 15px 20px;
+      text-align: center;
+      background-color: var(--dark-light);
+      color: var(--text-secondary);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tab:hover {
+      background-color: var(--dark-lighter);
+      color: var(--text);
+    }
+    
+    .tab.active {
+      background-color: var(--dark-lighter);
+      color: var(--primary);
+    }
+    
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--primary);
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .tab-content {
+      display: none;
+      background-color: var(--dark-lighter);
+      padding: 30px;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .card {
+      background-color: var(--dark-light);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid var(--primary);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card h2 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: var(--dark);
+      color: var(--text);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(229, 57, 53, 0.2);
+    }
+    
+    button {
+      padding: 12px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-secondary {
+      background-color: #444;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #555;
+    }
+    
+    .btn-danger {
+      background-color: #d32f2f;
+    }
+    
+    .btn-danger:hover {
+      background-color: #b71c1c;
+    }
+    
+    .btn-success {
+      background-color: #388e3c;
+    }
+    
+    .btn-success:hover {
+      background-color: #2e7d32;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: var(--dark-light);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #444;
+    }
+    
+    th {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+    
+    tr:last-child td {
+      border-bottom: none;
+    }
+    
+    tr {
+      transition: background-color 0.2s ease;
+    }
+    
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .actions button {
+      padding: 8px 12px;
+      font-size: 0.85rem;
+    }
+    
+    .total-ventas {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+      padding: 15px;
+      background-color: var(--dark-light);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .extra-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    /* Animaciones */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes fadeInDown {
+      from { 
+        opacity: 0; 
+        transform: translateY(-20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .tabs {
+        flex-direction: column;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .extra-buttons {
+        flex-direction: column;
+      }
+      
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  
+/* ===== SERVITEC: mejoras de uso ===== */
+.quick-actions {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.quick-action {
+  flex:1;
+  min-width:220px;
+  background:linear-gradient(135deg,#252525,#1b1b1b);
+  border:1px solid #444;
+  border-radius:10px;
+  padding:14px 18px;
+  color:#fff;
+  cursor:pointer;
+  font-weight:700;
+  text-align:left;
+  transition:.2s ease;
+}
+.quick-action:hover {
+  border-color:var(--primary);
+  transform:translateY(-2px);
+}
+.quick-action small {
+  display:block;
+  color:#aaa;
+  font-weight:400;
+  margin-top:3px;
+}
+.dashboard {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+.stat-card {
+  background:linear-gradient(145deg,#202020,#161616);
+  border:1px solid #383838;
+  border-radius:12px;
+  padding:18px 20px;
+  box-shadow:0 5px 16px rgba(0,0,0,.18);
+}
+.stat-card .stat-label { color:#aaa; font-size:.9rem; }
+.stat-card .stat-value { font-size:1.65rem; font-weight:800; margin-top:4px; color:#fff; }
+.stat-card.primary-stat .stat-value { color:var(--primary); }
+.editing-banner {
+  display:none;
+  margin-bottom:16px;
+  padding:12px 15px;
+  border:1px solid #9c6a00;
+  background:#2b230f;
+  border-radius:8px;
+}
+.editing-banner.show { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.form-hint { color:#aaa; font-size:.85rem; margin-top:5px; }
+@media (max-width:768px) {
+  .dashboard { grid-template-columns:1fr; }
+  .quick-action { min-width:100%; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="logo.png" alt="Logo SERVITEC">
+    </div>
+    
+    <div class="header">
+      <h1>Registro de Ventas - SERVITEC</h1>
+      <p>Sistema de gestión de ventas y servicios técnicos</p>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab active" data-tab="ventas">📊 Ventas</button>
+      <button class="tab" data-tab="pendientes">📦 Pendientes</button>
+      <button class="tab" data-tab="historial">📜 Historial</button>
+      <button class="tab" data-tab="ticket">🎫 Ticket Manual</button>
+    </div>
+    
+    <!-- Pestaña de Ventas -->
+    <div id="ventas" class="tab-content active">
+      <div class="dashboard">
+        <div class="stat-card primary-stat">
+          <div class="stat-label">💰 TOTAL VENDIDO</div>
+          <div class="stat-value" id="totalVendidoTop">$0.00</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">💵 TOTAL SIN TRANSFERENCIAS</div>
+          <div class="stat-value" id="totalSinTransferenciasTop">$0.00</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Registrar Nueva Venta</h2>
+        <div class="quick-actions">
+          <button type="button" class="quick-action" id="ventaPantallaBtn">
+            📱 VENTA DE PANTALLA
+            <small>Llena automáticamente los datos de una venta de refacción.</small>
+          </button>
+        </div>
+        <div class="editing-banner" id="editingBanner">
+          <span>✏️ <strong>Editando venta guardada</strong></span>
+          <button type="button" class="btn-secondary" onclick="cancelarEdicion()">Cancelar</button>
+        </div>
+        <form id="ventaForm">
+          <input type="hidden" id="editIndex" value="">
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nombreCliente">Nombre del Cliente:</label>
+              <input type="text" id="nombreCliente" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="telefonoCliente">Teléfono del Cliente:</label>
+              <input type="tel" id="telefonoCliente" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="tipoTelefono">Tipo de Teléfono:</label>
+              <input type="text" id="tipoTelefono" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="usuario">Usuario (Empleado):</label>
+              <input type="text" id="usuario" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="servicio">Servicio:</label>
+              <select id="servicio" required>
+                <option value="Cambio de pantalla">Cambio de pantalla</option>
+                <option value="Cambio de batería">Cambio de batería</option>
+                <option value="Desbloqueo">Desbloqueo</option>
+                <option value="Mantenimiento general">Mantenimiento general</option>
+                <option value="Reparación de puerto de carga">Reparación de puerto de carga</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            
+            <div class="form-group" id="otroDesc">
+              <label for="descripcion">Descripción:</label>
+              <textarea id="descripcion" rows="3"></textarea>
+              <div class="form-hint" id="descripcionHint"></div>
+            </div>
+            
+            <div class="form-group">
+              <label for="precio">Precio (MXN):</label>
+              <input type="number" id="precio" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="fecha">Fecha:</label>
+              <input type="date" id="fecha" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="formaPago">Forma de Pago:</label>
+              <select id="formaPago" required>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="NO PAGADO">NO PAGADO</option>
+              </select>
+            </div>
+          </div>
+          
+          <button type="submit" id="guardarVentaBtn">💾 Guardar Venta</button>
+        </form>
+      </div>
+      
+      <div class="card">
+        <h2>Ventas Registradas</h2>
+        <table id="tablaVentas">
+          <thead>
+            <tr>
+              <th>Nombre Cliente</th>
+              <th>Teléfono</th>
+              <th>Equipo</th>
+              <th>Usuario</th>
+              <th>Servicio</th>
+              <th>Precio</th>
+              <th>Fecha</th>
+              <th>Forma Pago</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="totalVentas" class="total-ventas">Total de Ventas: $0.00</div>
+      </div>
+    </div>
+    
+    <!-- Pestaña de Pendientes -->
+    <div id="pendientes" class="tab-content">
+      <div class="card">
+        <h2>Agregar Pendiente</h2>
+        <form id="pendienteForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nombreClientePend">Nombre del Cliente:</label>
+              <input type="text" id="nombreClientePend" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="telefonoClientePend">Teléfono del Cliente:</label>
+              <input type="tel" id="telefonoClientePend" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="tipoTelefonoPend">Tipo de Teléfono:</label>
+              <input type="text" id="tipoTelefonoPend" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="usuarioPend">Usuario (Empleado):</label>
+              <input type="text" id="usuarioPend" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="servicioPend">Servicio:</label>
+              <select id="servicioPend" required>
+                <option value="Cambio de pantalla">Cambio de pantalla</option>
+                <option value="Cambio de batería">Cambio de batería</option>
+                <option value="Mantenimiento general">Mantenimiento general</option>
+                <option value="Reparación de puerto de carga">Reparación de puerto de carga</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+            
+            <div class="form-group" id="otroDescPend">
+              <label for="descripcionPend">Descripción:</label>
+              <textarea id="descripcionPend" rows="3"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="precioPend">Precio (MXN):</label>
+              <input type="number" id="precioPend" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="fechaPend">Fecha:</label>
+              <input type="date" id="fechaPend" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="formaPagoPend">Forma de Pago:</label>
+              <select id="formaPagoPend" required>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="NO PAGADO">NO PAGADO</option>
+              </select>
+            </div>
+          </div>
+          
+          <button type="submit">➕ Agregar Pendiente</button>
+        </form>
+      </div>
+      
+      <div class="card">
+        <h2>Pendientes por Entregar</h2>
+        <table id="tablaPendientes">
+          <thead>
+            <tr>
+              <th>Nombre Cliente</th>
+              <th>Teléfono</th>
+              <th>Equipo</th>
+              <th>Usuario</th>
+              <th>Servicio</th>
+              <th>Precio</th>
+              <th>Fecha</th>
+              <th>Forma Pago</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Pestaña de Historial -->
+    <div id="historial" class="tab-content">
+      <div class="card">
+        <h2>Historial Completo</h2>
+        <table id="tablaHistorial">
+          <thead>
+            <tr>
+              <th>Nombre Cliente</th>
+              <th>Teléfono</th>
+              <th>Equipo</th>
+              <th>Usuario</th>
+              <th>Servicio</th>
+              <th>Precio</th>
+              <th>Fecha</th>
+              <th>Forma Pago</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        
+        <div class="extra-buttons">
+          <button onclick="finalizarDia()" class="btn-success">📤 Finalizar Día</button>
+          <button onclick="limpiarHistorial()" class="btn-danger">🗑️ Limpiar Historial</button>
+          <button onclick="borrarVentas()" class="btn-danger">❌ Borrar Ventas</button>
+          <button onclick="imprimirResumen()" class="btn-secondary">🖨️ Ticket Resumen del Día</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Pestaña de Ticket Manual (MODIFICADA con políticas cortas y teléfono) -->
+    <div id="ticket" class="tab-content">
+      <div class="card">
+        <h2>Generar Ticket Manual</h2>
+        <form id="ticketManualForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="nombreManual">Nombre del Cliente:</label>
+              <input type="text" id="nombreManual" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="telefonoManual">Teléfono:</label>
+              <input type="tel" id="telefonoManual">
+            </div>
+            
+            <div class="form-group">
+              <label for="servicioManual">Servicio:</label>
+              <input type="text" id="servicioManual" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="precioManual">Precio (MXN):</label>
+              <input type="number" id="precioManual" required>
+            </div>
+
+            <!-- NUEVOS CAMPOS: Anticipo y Restan -->
+            <div class="form-group">
+              <label for="anticipoManual">Anticipo (MXN):</label>
+              <input type="number" id="anticipoManual" value="0" min="0" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="restanManual">Restan (MXN):</label>
+              <input type="number" id="restanManual" readonly style="background-color: #333; color: #4caf50; font-weight: bold;">
+            </div>
+            <!-- FIN NUEVOS CAMPOS -->
+            
+            <div class="form-group">
+              <label for="formaPagoManual">Forma de Pago:</label>
+              <select id="formaPagoManual" required>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Tarjeta">Tarjeta</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="NO PAGADO">NO PAGADO</option>
+              </select>
+            </div>
+          </div>
+          
+          <button type="submit">🖨️ Generar Ticket</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mantengo todo el JavaScript original sin cambios, solo se AÑADE la lógica para anticipo/restan y se modifica el ticket manual -->
+  <script>
+    // ===== SERVITEC MADERO - lógica mejorada =====
+    const usuarioInput = document.getElementById("usuario");
+    const fechaInput = document.getElementById("fecha");
+    const tablaBody = document.querySelector("#tablaVentas tbody");
+    const historialBody = document.querySelector("#tablaHistorial tbody");
+    const pendientesBody = document.querySelector("#tablaPendientes tbody");
+    const totalVentasEl = document.getElementById("totalVentas");
+    const guardarVentaBtn = document.getElementById("guardarVentaBtn");
+    const editingBanner = document.getElementById("editingBanner");
+    let editIndex = null;
+
+    // Pestañas
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    function getVentas() {
+      return JSON.parse(localStorage.getItem("ventas")) || [];
+    }
+    function getHistorial() {
+      return JSON.parse(localStorage.getItem("historial")) || [];
+    }
+    function getPendientes() {
+      return JSON.parse(localStorage.getItem("pendientes")) || [];
+    }
+    function money(n) {
+      return "$" + (parseFloat(n) || 0).toLocaleString("es-MX", {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[c]));
+    }
+
+    // Resumen superior: total vendido y total excluyendo transferencias.
+    function actualizarResumen() {
+      const ventas = getVentas();
+      let total = 0, sinTransferencias = 0;
+      ventas.forEach(v => {
+        const p = parseFloat(v.precio) || 0;
+        total += p;
+        if ((v.formaPago || "").toLowerCase() !== "transferencia") sinTransferencias += p;
+      });
+      document.getElementById("totalVendidoTop").textContent = money(total);
+      document.getElementById("totalSinTransferenciasTop").textContent = money(sinTransferencias);
+      totalVentasEl.textContent = "Total de Ventas: " + money(total);
+    }
+
+    function cargarVentas() {
+      const ventas = getVentas();
+      tablaBody.innerHTML = "";
+      ventas.forEach((venta, index) => {
+        const fila = `<tr>
+          <td>${escapeHtml(venta.nombreCliente)}</td>
+          <td>${escapeHtml(venta.telefonoCliente)}</td>
+          <td>${escapeHtml(venta.tipoTelefono)}</td>
+          <td>${escapeHtml(venta.usuario)}</td>
+          <td>${escapeHtml(venta.servicio)}${venta.descripcion ? " - " + escapeHtml(venta.descripcion) : ""}</td>
+          <td>${money(venta.precio)}</td>
+          <td>${escapeHtml(venta.fecha)}</td>
+          <td>${escapeHtml(venta.formaPago)}</td>
+          <td class="actions">
+            <button onclick="editarVenta(${index})" class="btn-secondary">✏️ Editar</button>
+            <button onclick="imprimirTicket(${index})" class="btn-secondary">🖨️ Ticket</button>
+            <button onclick="eliminarVenta(${index})" class="btn-danger">Eliminar</button>
+          </td>
+        </tr>`;
+        tablaBody.insertAdjacentHTML("beforeend", fila);
+      });
+      cargarHistorial();
+      actualizarResumen();
+    }
+
+    function cargarHistorial() {
+      const historial = getHistorial();
+      historialBody.innerHTML = "";
+      historial.forEach((venta) => {
+        const fila = `<tr>
+          <td>${escapeHtml(venta.nombreCliente)}</td>
+          <td>${escapeHtml(venta.telefonoCliente)}</td>
+          <td>${escapeHtml(venta.tipoTelefono)}</td>
+          <td>${escapeHtml(venta.usuario)}</td>
+          <td>${escapeHtml(venta.servicio)}${venta.descripcion ? " - " + escapeHtml(venta.descripcion) : ""}</td>
+          <td>${money(venta.precio)}</td>
+          <td>${escapeHtml(venta.fecha)}</td>
+          <td>${escapeHtml(venta.formaPago)}</td>
+        </tr>`;
+        historialBody.insertAdjacentHTML("beforeend", fila);
+      });
+    }
+
+    function cargarPendientes() {
+      const pendientes = getPendientes();
+      pendientesBody.innerHTML = "";
+      pendientes.forEach((p, i) => {
+        const fila = `<tr>
+          <td>${escapeHtml(p.nombreCliente)}</td>
+          <td>${escapeHtml(p.telefonoCliente)}</td>
+          <td>${escapeHtml(p.tipoTelefono)}</td>
+          <td>${escapeHtml(p.usuario)}</td>
+          <td>${escapeHtml(p.servicio)}${p.descripcion ? " - " + escapeHtml(p.descripcion) : ""}</td>
+          <td>${money(p.precio)}</td>
+          <td>${escapeHtml(p.fecha)}</td>
+          <td>${escapeHtml(p.formaPago)}</td>
+          <td class="actions">
+            <button onclick="editarPendiente(${i})" class="btn-secondary">✏️ Editar</button>
+            <button onclick="marcarEntregado(${i})" class="btn-success">✅ Entregado</button>
+            <button onclick="imprimirTicketPendiente(${i})" class="btn-secondary">🖨️ Ticket</button>
+            <button onclick="eliminarPendiente(${i})" class="btn-danger">Eliminar</button>
+          </td>
+        </tr>`;
+        pendientesBody.insertAdjacentHTML("beforeend", fila);
+      });
+    }
+
+    function resetVentaForm() {
+      document.getElementById("ventaForm").reset();
+      document.getElementById("editIndex").value = "";
+      editIndex = null;
+      editingBanner.classList.remove("show");
+      guardarVentaBtn.textContent = "💾 Guardar Venta";
+      document.getElementById("descripcionHint").textContent = "";
+      document.getElementById("otroDesc").style.display = "block";
+      const hoy = new Date().toISOString().split("T")[0];
+      usuarioInput.value = localStorage.getItem("ultimoUsuario") || "";
+      fechaInput.value = localStorage.getItem("ultimaFecha") || hoy;
+    }
+
+    function cancelarEdicion() {
+      resetVentaForm();
+    }
+
+    function cargarVentaEnFormulario(v) {
+      document.getElementById("nombreCliente").value = v.nombreCliente || "";
+      document.getElementById("telefonoCliente").value = v.telefonoCliente || "";
+      document.getElementById("tipoTelefono").value = v.tipoTelefono || "";
+      document.getElementById("usuario").value = v.usuario || "";
+      document.getElementById("servicio").value = v.servicio || "Otro";
+      document.getElementById("descripcion").value = v.descripcion || "";
+      document.getElementById("precio").value = v.precio || "";
+      document.getElementById("fecha").value = v.fecha || "";
+      document.getElementById("formaPago").value = v.formaPago || "Efectivo";
+      document.getElementById("otroDesc").style.display = v.servicio === "Otro" ? "block" : "none";
+    }
+
+    function editarVenta(index) {
+      const ventas = getVentas();
+      if (!ventas[index]) return;
+      editIndex = index;
+      document.getElementById("editIndex").value = index;
+      cargarVentaEnFormulario(ventas[index]);
+      editingBanner.classList.add("show");
+      guardarVentaBtn.textContent = "💾 Guardar Cambios";
+      document.querySelector('.tab[data-tab="ventas"]').click();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    // Venta rápida de pantalla
+    document.getElementById("ventaPantallaBtn").addEventListener("click", () => {
+      editIndex = null;
+      document.getElementById("editIndex").value = "";
+      document.getElementById("nombreCliente").value = "VENTA DE PANTALLA";
+      document.getElementById("telefonoCliente").value = "Null";
+      document.getElementById("tipoTelefono").value = "PANTALLA";
+      document.getElementById("servicio").value = "Otro";
+      document.getElementById("descripcion").value = "";
+      document.getElementById("precio").value = "";
+      document.getElementById("formaPago").value = "Efectivo";
+      document.getElementById("otroDesc").style.display = "block";
+      document.getElementById("descripcionHint").textContent = "Escribe aquí el modelo/calidad de la pantalla.";
+      document.getElementById("precio").focus();
+      editingBanner.classList.remove("show");
+      guardarVentaBtn.textContent = "💾 Guardar Venta";
+    });
+
+    // Servicio "Otro"
+    document.getElementById("servicio").addEventListener("change", () => {
+      const isOther = document.getElementById("servicio").value === "Otro";
+      document.getElementById("otroDesc").style.display = isOther ? "block" : "none";
+      if (!isOther) {
+        document.getElementById("descripcion").value = "";
+        document.getElementById("descripcionHint").textContent = "";
+      }
+    });
+
+    // Guardar / editar venta y sincronizar historial
+    document.getElementById("ventaForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const nuevaVenta = {
+        nombreCliente: document.getElementById("nombreCliente").value.trim(),
+        telefonoCliente: document.getElementById("telefonoCliente").value.trim(),
+        tipoTelefono: document.getElementById("tipoTelefono").value.trim(),
+        usuario: usuarioInput.value.trim(),
+        servicio: document.getElementById("servicio").value,
+        descripcion: document.getElementById("descripcion").value.trim(),
+        precio: document.getElementById("precio").value,
+        fecha: fechaInput.value,
+        formaPago: document.getElementById("formaPago").value
+      };
+
+      let ventas = getVentas();
+      let historial = getHistorial();
+
+      if (editIndex !== null && ventas[editIndex]) {
+        const anterior = ventas[editIndex];
+        ventas[editIndex] = nuevaVenta;
+
+        // Mantener historial sincronizado por posición/venta existente.
+        const idxHist = historial.findIndex(h =>
+          h === anterior ||
+          (h.nombreCliente === anterior.nombreCliente &&
+           h.telefonoCliente === anterior.telefonoCliente &&
+           h.tipoTelefono === anterior.tipoTelefono &&
+           h.usuario === anterior.usuario &&
+           h.servicio === anterior.servicio &&
+           h.descripcion === anterior.descripcion &&
+           String(h.precio) === String(anterior.precio) &&
+           h.fecha === anterior.fecha &&
+           h.formaPago === anterior.formaPago)
+        );
+        if (idxHist !== -1) historial[idxHist] = nuevaVenta;
+        else if (historial[editIndex]) historial[editIndex] = nuevaVenta;
+
+        alert("✅ Venta actualizada y sincronizada con el historial.");
+      } else {
+        ventas.push(nuevaVenta);
+        historial.push(nuevaVenta);
+      }
+
+      localStorage.setItem("ultimoUsuario", nuevaVenta.usuario);
+      localStorage.setItem("ultimaFecha", nuevaVenta.fecha);
+      localStorage.setItem("ventas", JSON.stringify(ventas));
+      localStorage.setItem("historial", JSON.stringify(historial));
+
+      resetVentaForm();
+      cargarVentas();
+    });
+
+    function eliminarVenta(index) {
+      let ventas = getVentas();
+      let historial = getHistorial();
+      if (!ventas[index]) return;
+      if (!confirm("¿Seguro que deseas eliminar esta venta?")) return;
+
+      const eliminada = ventas[index];
+      ventas.splice(index, 1);
+
+      // Eliminar del historial la misma operación, sin borrar otras similares.
+      const idxHist = historial.findIndex(h =>
+        h.nombreCliente === eliminada.nombreCliente &&
+        h.telefonoCliente === eliminada.telefonoCliente &&
+        h.tipoTelefono === eliminada.tipoTelefono &&
+        h.usuario === eliminada.usuario &&
+        h.servicio === eliminada.servicio &&
+        h.descripcion === eliminada.descripcion &&
+        String(h.precio) === String(eliminada.precio) &&
+        h.fecha === eliminada.fecha &&
+        h.formaPago === eliminada.formaPago
+      );
+      if (idxHist !== -1) historial.splice(idxHist, 1);
+
+      localStorage.setItem("ventas", JSON.stringify(ventas));
+      localStorage.setItem("historial", JSON.stringify(historial));
+      cargarVentas();
+    }
+
+    // ===== PENDIENTES =====
+    // Guardar nuevo pendiente
+    pendienteForm.addEventListener("submit", (e) => {
+      if (pendienteForm.dataset.editIndex !== undefined) return;
+      e.preventDefault();
+      const pendiente = {
+        nombreCliente: document.getElementById("nombreClientePend").value,
+        telefonoCliente: document.getElementById("telefonoClientePend").value,
+        tipoTelefono: document.getElementById("tipoTelefonoPend").value,
+        usuario: document.getElementById("usuarioPend").value,
+        servicio: document.getElementById("servicioPend").value,
+        descripcion: document.getElementById("descripcionPend").value,
+        precio: document.getElementById("precioPend").value,
+        fecha: document.getElementById("fechaPend").value,
+        formaPago: document.getElementById("formaPagoPend").value
+      };
+      let pendientes = getPendientes();
+      pendientes.push(pendiente);
+      localStorage.setItem("pendientes", JSON.stringify(pendientes));
+      e.target.reset();
+      document.getElementById("fechaPend").value = fechaInput.value || new Date().toISOString().split("T")[0];
+      document.getElementById("usuarioPend").value = usuarioInput.value || "";
+      cargarPendientes();
+    });
+
+    // Reemplazar submit de pendientes para soportar edición.
+    const pendienteForm = document.getElementById("pendienteForm");
+    pendienteForm.addEventListener("submit", (e) => {
+      // El primer listener ya guardaría un duplicado; este listener solo corrige si hay edición.
+      if (pendienteForm.dataset.editIndex === undefined) return;
+      e.preventDefault();
+      const index = parseInt(pendienteForm.dataset.editIndex, 10);
+      let pendientes = getPendientes();
+      if (!pendientes[index]) return;
+
+      pendientes[index] = {
+        nombreCliente: document.getElementById("nombreClientePend").value,
+        telefonoCliente: document.getElementById("telefonoClientePend").value,
+        tipoTelefono: document.getElementById("tipoTelefonoPend").value,
+        usuario: document.getElementById("usuarioPend").value,
+        servicio: document.getElementById("servicioPend").value,
+        descripcion: document.getElementById("descripcionPend").value,
+        precio: document.getElementById("precioPend").value,
+        fecha: document.getElementById("fechaPend").value,
+        formaPago: document.getElementById("formaPagoPend").value
+      };
+      localStorage.setItem("pendientes", JSON.stringify(pendientes));
+      delete pendienteForm.dataset.editIndex;
+      pendienteForm.reset();
+      pendienteForm.querySelector('button[type="submit"]').textContent = "➕ Agregar Pendiente";
+      cargarPendientes();
+      alert("✅ Pendiente actualizado.");
+    });
+
+    function eliminarPendiente(i) {
+      let pendientes = getPendientes();
+      if (!confirm("¿Seguro que deseas eliminar este pendiente?")) return;
+      pendientes.splice(i, 1);
+      localStorage.setItem("pendientes", JSON.stringify(pendientes));
+      cargarPendientes();
+    }
+
+    function marcarEntregado(i) {
+      let pendientes = getPendientes();
+      const entregado = pendientes.splice(i, 1)[0];
+      if (!entregado) return;
+
+      localStorage.setItem("pendientes", JSON.stringify(pendientes));
+      let ventas = getVentas();
+      let historial = getHistorial();
+      const nuevaVenta = {
+        nombreCliente: entregado.nombreCliente || "Cliente",
+        telefonoCliente: entregado.telefonoCliente || "",
+        tipoTelefono: entregado.tipoTelefono || "",
+        usuario: entregado.usuario || (usuarioInput.value || "Empleado"),
+        servicio: entregado.servicio || "",
+        descripcion: entregado.descripcion || "",
+        precio: entregado.precio || 0,
+        fecha: entregado.fecha || new Date().toISOString().split("T")[0],
+        formaPago: entregado.formaPago || "Pendiente"
+      };
+      ventas.push(nuevaVenta);
+      historial.push(nuevaVenta);
+      localStorage.setItem("ventas", JSON.stringify(ventas));
+      localStorage.setItem("historial", JSON.stringify(historial));
+      cargarPendientes();
+      cargarVentas();
+    }
+
+    // Mostrar "Otro" para pendientes
+    document.getElementById("servicioPend").addEventListener("change", () => {
+      const isOther = document.getElementById("servicioPend").value === "Otro";
+      document.getElementById("otroDescPend").style.display = isOther ? "block" : "none";
+      if (!isOther) document.getElementById("descripcionPend").value = "";
+    });
+
+    // ===== TICKETS =====
+    function nuevoTicketNumero() {
+      const counter = parseInt(localStorage.getItem("ticketCounter")) || 1;
+      localStorage.setItem("ticketCounter", counter + 1);
+      return ("00000000" + counter).slice(-8);
+    }
+
+    function imprimirTicket(index) {
+      const ventas = getVentas();
+      const venta = ventas[index];
+      if (!venta) return alert("Venta no encontrada.");
+      abrirTicket(venta, "TICKET DE VENTA");
+    }
+
+    function imprimirTicketPendiente(index) {
+      const pendientes = getPendientes();
+      const p = pendientes[index];
+      if (!p) return alert("Pendiente no encontrado.");
+      abrirTicket(p, "TICKET DE PENDIENTE");
+    }
+
+    function abrirTicket(venta, titulo) {
+      const ticketNo = nuevoTicketNumero();
+      const ticket = window.open("", "Ticket", "width=300,height=700");
+      if (!ticket) return alert("El navegador bloqueó la ventana de impresión. Permite ventanas emergentes para este archivo.");
+      ticket.document.write(`
+        <html><head><title>${titulo}</title>
+        <style>
+          body{font-family:monospace,Arial,sans-serif;font-size:11px;text-align:center;margin:2px}
+          .linea{border-top:1px solid #000;margin:3px 0}.titulo{font-weight:bold;font-size:12px;margin:3px 0}
+          .detalle{text-align:left;margin:2px;font-size:11px}.totales{text-align:right;font-weight:bold;margin-top:2px}
+          .qr img{max-width:100px}.politicas{font-size:9px;text-align:left;margin-top:5px}
+          p{margin:2px 0}
+        </style></head><body>
+        <div><img src="logo.png" alt="Logo" style="max-width:90px"></div>
+        <p><strong>SERVITEC MADERO</strong></p>
+        <p>Calle Emilio Carranza #28 Col. Fresno del Norte</p>
+        <p>Fco. I. Madero, Coah</p><p>Tel: 8718968112</p>
+        <div class="linea"></div><div class="titulo">${titulo}</div><div class="linea"></div>
+        <div class="detalle">
+          <p>Fecha: ${escapeHtml(venta.fecha)} &nbsp; Hora: ${new Date().toLocaleTimeString()}</p>
+          <p>Ticket No: ${ticketNo}</p><p>Cliente: ${escapeHtml(venta.nombreCliente)}</p>
+          <p>Teléfono: ${escapeHtml(venta.telefonoCliente)}</p><p>Equipo: ${escapeHtml(venta.tipoTelefono)}</p>
+          <p>Pago: ${escapeHtml(venta.formaPago)}</p>
+        </div>
+        <div class="linea"></div>
+        <div class="detalle"><p>Servicio:</p><p>- ${escapeHtml(venta.servicio)}${venta.descripcion ? " - " + escapeHtml(venta.descripcion) : ""} ${money(venta.precio)}</p></div>
+        <div class="linea"></div><p class="totales">TOTAL: ${money(venta.precio)}</p><div class="linea"></div>
+        <div class="qr"><img src="732a29dc-19b2-4b57-bddf-f96f73a1bb51.png" alt="QR"></div>
+        <p>¡Gracias por su compra!</p><div class="linea"></div>
+        <div class="politicas"><strong>POLÍTICAS DE GARANTÍA</strong><br>
+        El servicio técnico cuenta con 30 días de garantía en refacciones.<br>
+        1. Solo cubre el arreglo realizado.<br>2. Revisiones sin costo.<br>
+        3. No aplica en equipos mojados, golpeados o con sellos rotos.<br>
+        4. No aplica en software con virus o bloqueos.<br>5. El cliente debe revisar al recibirlo.<br>
+        6. No hay reclamos después de 24 hrs.<br>7. No responsables por teléfonos olvidados que superen 30 días.</div>
+        <script>window.print();<\/script></body></html>`);
+      ticket.document.close();
+    }
+
+    // ===== HISTORIAL / FINALIZAR DÍA =====
+    function limpiarHistorial() {
+      if (confirm("¿Seguro que deseas borrar TODO el historial?")) {
+        localStorage.removeItem("historial");
+        cargarVentas();
+      }
+    }
+
+    function borrarVentas() {
+      if (confirm("¿Seguro que deseas borrar todas las ventas registradas? Esto también sincronizará el historial.")) {
+        localStorage.removeItem("ventas");
+        localStorage.removeItem("historial");
+        cargarVentas();
+      }
+    }
+
+    function finalizarDia() {
+      const historial = getHistorial();
+      if (!historial.length) return alert("No hay historial para exportar.");
+      let contenido = "📜 Historial de Ventas - " + new Date().toLocaleDateString() + "\n\n";
+      let total = 0;
+      historial.forEach((venta, i) => {
+        contenido += `${i+1}. Cliente: ${venta.nombreCliente}\n`;
+        contenido += `   Teléfono: ${venta.telefonoCliente}\n`;
+        contenido += `   Equipo: ${venta.tipoTelefono}\n`;
+        contenido += `   Usuario: ${venta.usuario}\n`;
+        contenido += `   Servicio: ${venta.servicio}${venta.descripcion ? " - " + venta.descripcion : ""}\n`;
+        contenido += `   Precio: $${venta.precio}\n`;
+        contenido += `   Forma de Pago: ${venta.formaPago}\n`;
+        contenido += `   Fecha: ${venta.fecha}\n\n`;
+        total += parseFloat(venta.precio) || 0;
+      });
+      contenido += "=========================================\n";
+      contenido += `💰 TOTAL DEL DÍA: $${total.toFixed(2)}\n`;
+      contenido += "=========================================\n";
+      const blob = new Blob([contenido], {type:"text/plain"});
+      const enlace = document.createElement("a");
+      enlace.href = URL.createObjectURL(blob);
+      enlace.download = "historial_" + new Date().toISOString().split("T")[0] + ".txt";
+      enlace.click();
+      localStorage.removeItem("historial");
+      localStorage.removeItem("ventas");
+      cargarVentas();
+      alert("✅ Día finalizado: historial y ventas exportados y eliminados. Pendientes conservados.");
+    }
+
+    function imprimirResumen() {
+      const historial = getHistorial();
+      if (!historial.length) return alert("No hay ventas en el historial.");
+
+      let total = 0;
+      let sinTransferencias = 0;
+      let detalles = "";
+
+      historial.forEach((venta, i) => {
+        const precio = parseFloat(venta.precio) || 0;
+        total += precio;
+        if ((venta.formaPago || "").toLowerCase() !== "transferencia") sinTransferencias += precio;
+
+        // Cada dato va en su propia línea para evitar que la impresora térmica
+        // comprima o corte texto largo.
+        detalles += `
+          <div class="venta">
+            <div class="num">${i + 1}. ${escapeHtml(venta.nombreCliente)}</div>
+            <div>${escapeHtml(venta.servicio)}${venta.descripcion ? " - " + escapeHtml(venta.descripcion) : ""}</div>
+            <div class="fila"><span>Pago:</span><span>${escapeHtml(venta.formaPago || "")}</span></div>
+            <div class="fila"><span>Importe:</span><span>${money(precio)}</span></div>
+          </div>`;
+      });
+
+      const ticket = window.open("", "ResumenDia", "width=360,height=700");
+      if (!ticket) return alert("El navegador bloqueó la ventana de impresión.");
+
+      ticket.document.write(`
+        <!doctype html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Resumen del Día</title>
+          <style>
+            @page {
+              size: 80mm auto;
+              margin: 0;
+            }
+            * { box-sizing: border-box; }
+            html, body {
+              width: 80mm;
+              margin: 0;
+              padding: 0;
+              background: #fff;
+              color: #000;
+            }
+            body {
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 10px;
+              line-height: 1.25;
+              padding: 2mm 3mm 4mm;
+              text-align: left;
+            }
+            .encabezado {
+              text-align: center;
+              margin-bottom: 5px;
+            }
+            .encabezado img {
+              display: block;
+              max-width: 24mm;
+              max-height: 16mm;
+              margin: 0 auto 2px;
+              object-fit: contain;
+            }
+            .titulo {
+              font-size: 14px;
+              font-weight: 800;
+              margin: 1px 0;
+            }
+            .subtitulo {
+              font-size: 11px;
+              font-weight: 700;
+              margin: 2px 0;
+            }
+            .linea {
+              border-top: 1px dashed #000;
+              margin: 5px 0;
+            }
+            .venta {
+              margin: 0 0 5px;
+              padding-bottom: 4px;
+              border-bottom: 1px dotted #777;
+              overflow-wrap: anywhere;
+            }
+            .venta:last-child {
+              border-bottom: 0;
+            }
+            .num {
+              font-weight: 700;
+              margin-bottom: 1px;
+            }
+            .fila {
+              display: flex;
+              justify-content: space-between;
+              gap: 8px;
+            }
+            .fila span:last-child {
+              text-align: right;
+              white-space: nowrap;
+            }
+            .totales {
+              font-weight: 800;
+              font-size: 12px;
+              margin-top: 3px;
+            }
+            .pie {
+              text-align: center;
+              font-size: 9px;
+              margin-top: 6px;
+            }
+            @media print {
+              body {
+                width: 80mm;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="encabezado">
+            <img src="logo.png" alt="">
+            <div class="titulo">SERVITEC MADERO</div>
+            <div class="subtitulo">RESUMEN DEL DÍA</div>
+            <div>${new Date().toLocaleDateString("es-MX")} - ${new Date().toLocaleTimeString("es-MX")}</div>
+          </div>
+
+          <div class="linea"></div>
+          ${detalles}
+          <div class="linea"></div>
+
+          <div class="totales">
+            <div class="fila"><span>TOTAL VENDIDO:</span><span>${money(total)}</span></div>
+            <div class="fila"><span>SIN TRANSFERENCIAS:</span><span>${money(sinTransferencias)}</span></div>
+          </div>
+
+          <div class="linea"></div>
+          <div class="pie">SERVITEC MADERO<br>Gracias por su preferencia</div>
+
+          <script>
+            window.addEventListener("load", function () {
+              setTimeout(function () { window.print(); }, 250);
+            });
+          <\/script>
+        </body>
+        </html>`);
+      ticket.document.close();
+    }
+
+    // ===== TICKET MANUAL =====
+    function calcularRestan() {
+      const precio = parseFloat(document.getElementById("precioManual").value) || 0;
+      const anticipo = parseFloat(document.getElementById("anticipoManual").value) || 0;
+      document.getElementById("restanManual").value = Math.max(0, precio - anticipo).toFixed(2);
+    }
+    document.getElementById("precioManual").addEventListener("input", calcularRestan);
+    document.getElementById("anticipoManual").addEventListener("input", calcularRestan);
+
+    document.getElementById("ticketManualForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById("nombreManual").value;
+      const telefono = document.getElementById("telefonoManual").value;
+      const servicio = document.getElementById("servicioManual").value;
+      const precio = document.getElementById("precioManual").value;
+      const anticipo = document.getElementById("anticipoManual").value;
+      const restan = document.getElementById("restanManual").value;
+      const formaPago = document.getElementById("formaPagoManual").value;
+      const fecha = new Date().toISOString().split("T")[0];
+      const hora = new Date().toLocaleTimeString();
+
+      const ticket = window.open("", "TicketManual", "width=300,height=680");
+      if (!ticket) return alert("El navegador bloqueó la ventana de impresión.");
+      ticket.document.write(`
+        <html><head><title>Ticket Manual</title>
+        <style>
+          body{font-family:monospace;font-size:12px;text-align:center;margin:5px}
+          .linea{border-top:1px dashed #000;margin:8px 0}.pago-detalle{text-align:left;margin:10px}
+          .politicas{font-size:10px;text-align:left;margin-top:10px}p{margin:3px 0}
+        </style></head><body>
+        <div><img src="logo.png" style="max-width:100px"></div>
+        <p><strong>SERVITEC MADERO</strong></p><p><b>Ticket Manual</b></p><div class="linea"></div>
+        <p>Fecha: ${fecha} - Hora: ${hora}</p><p>Cliente: ${escapeHtml(nombre)}</p><p>Teléfono: ${escapeHtml(telefono)}</p>
+        <p>Servicio: ${escapeHtml(servicio)}</p><p>Pago: ${escapeHtml(formaPago)}</p><div class="linea"></div>
+        <div class="pago-detalle"><p><strong>Total del servicio:</strong> ${money(precio)}</p>
+        <p><strong>Anticipo:</strong> ${money(anticipo)}</p><p><strong>Saldo restante:</strong> ${money(restan)}</p></div>
+        <div class="linea"></div><h3>TOTAL PAGADO: ${money((parseFloat(precio)||0)-(parseFloat(restan)||0))}</h3>
+        <div class="linea"></div><p>¡Gracias por su preferencia!</p><p><strong>Tel: 8718968112</strong></p><div class="linea"></div>
+        <div class="politicas"><strong>GARANTÍA (30 DÍAS EN REFACCIONES)</strong><br>
+        • Cubre solo el arreglo realizado.<br>• No aplica en equipos mojados, golpeados o con sellos rotos.<br>
+        • El cliente debe revisar el equipo al recibirlo.<br>• No hay reclamos después de 24 horas.<br>
+        • No responsables por equipos olvidados por más de 30 días.</div>
+        <script>window.print();<\/script></body></html>`);
+      ticket.document.close();
+      e.target.reset();
+      document.getElementById("anticipoManual").value = 0;
+      calcularRestan();
+    });
+
+    // ===== INICIO =====
+    window.addEventListener("load", () => {
+      usuarioInput.value = localStorage.getItem("ultimoUsuario") || "";
+      fechaInput.value = localStorage.getItem("ultimaFecha") || new Date().toISOString().split("T")[0];
+      document.getElementById("fechaPend").value = fechaInput.value;
+      document.getElementById("usuarioPend").value = usuarioInput.value;
+      document.getElementById("otroDesc").style.display = "block";
+      cargarPendientes();
+      cargarVentas();
+      calcularRestan();
+    });
+  </script>
+</body>
+</html>
